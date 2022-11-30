@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{poke}}</h2>
+    <a href="/pokemon1">Pokemon Attributes</a> 
+    <form class="form-inline" method="POST">
+        
+        {{form.hidden_tag()}}
+
+        <label class="sr-only" for="inlineFormInputName2">Name</label>
+        {{form.user_input(class="form-control mb-2 mr-sm-2", placeholder="Enter Mew")}}
+        <!-- <input type="text"  id="inlineFormInputName2" > -->
+      
+        <!-- <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">@</div>
+          </div>
+          <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+        </div> -->
+      
+        <!-- <div class="form-check mb-2 mr-sm-2">
+          <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+          <label class="form-check-label" for="inlineFormCheck">
+            Remember me
+          </label>
+        </div> -->
+        {{form.submit(class="btn btn-primary mb-2", value= 'Submit')}}
+        <!-- <button type="submit" >Submit</button> -->
+      </form>
+{% endblock %}
+
