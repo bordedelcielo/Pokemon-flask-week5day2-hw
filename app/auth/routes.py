@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_user, logout_user, current_user
 
 from app.auth.forms import UserCreationForm, Signup_Form, Login_Form
 
 import requests
 
-from app.models import User
+from app.models import User, db
 
 auth = Blueprint('auth', __name__, template_folder='auth_templates')
 
@@ -49,18 +50,36 @@ def signup():
             password= form.password.data
 
             user = User(first_name, last_name, email, password)
+
+            user.save_to_db()
+            return redirect(url_for('auth.login'))
+
     return render_template('signup.html', form=form)
 
-# @auth.route('/login', methods=['GET', 'POST'])
-# def login():
-#     form= Login_Form()
-#     if request.method == 'POST':
-#         if form.validate():
-#             email = form.email.data
-#             password= form.password.data
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    form= Login_Form()
+    if request.method == 'POST':
+        if form.validate():
+            email = form.email.data
+            password= form.password.data
 
-#     return render_template('login.html', form=form)
+            user = User.query.filter_by(email=email).first()
+            if user:
+                if password== user.password:
+                    print('Logged in')
+                    login_user(user)
+                else:
+                    print('try again')
+            else:
+                print('Email does not exist')
 
+    return render_template('login.html', form=form)
+
+@auth.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login'))
 
 
 
