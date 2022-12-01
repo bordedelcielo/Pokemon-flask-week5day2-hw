@@ -1,0 +1,3 @@
+1) Have an if statement to address if a valid pokemon is entered versus if not.
+2) If a valid pokemon name is entered, you should have a separate return statement that renders the pokemon1 page.
+3) To get the data on the front end, the variables you pull from the pokemon API call should be inserted into the pokemon1.html using Jinja2 (Python in HTML, basically)

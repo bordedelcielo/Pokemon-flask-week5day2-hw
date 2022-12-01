@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% block content%}
-    <br><h1>This is the pokemon attributes:</h1> 
-    <br><h2> Mew: <br> 'ability': synchronize, <br>
-        'url_sprite': 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/151.png', <br>
-        'attack_base_state': 100,<br>
-        'hp_base_stat': 100, <br>
-        'defense_base_stat': 100, <br>
-        'Ability': synchronize</h2> 
-
+<div class="tester">
+    <p>{% form %}</p>
+</div>
+        <div class="card" style="width:400px">
+            <img class="card-img-top" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/151.png" alt="Card image" style="width:100%">
+            <div class="card-body">
+              <h4 class="card-title">MEW</h4>
+              <p class="card-text">ability: synchronize</p>
+              <p class="card-text">attack_base_state: 100</p>
+              <p class="card-text">hp_base_stat: 100</p>
+              <p class="card-text">defense_base_stat: 100</p>
+            </div>
+          </div>
 {% endblock %}
 
