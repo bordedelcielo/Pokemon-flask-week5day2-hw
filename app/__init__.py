@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 app.config.from_object(Config)
 
-login_manager = LoginManager
+login_manager = LoginManager()
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
