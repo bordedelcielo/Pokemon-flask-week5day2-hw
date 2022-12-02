@@ -13,7 +13,7 @@ auth = Blueprint('auth', __name__, template_folder='auth_templates')
 def pokemon1():
     return render_template('pokemon1.html',)
 
-
+@auth.route('/')
 @auth.route('/home', methods=['GET', 'POST'])
 def home():
     form = UserCreationForm()
@@ -35,7 +35,7 @@ def home():
                 'defense_base_stat': new_response_four["stats"][2]['base_stat'],
                 'Ability' : new_response_four["abilities"][0]['ability']['name']
                 }
-            pokemon_data.append(new_pokemon)
+            pokemon_data.append(new_pokemon)  
             return render_template('index.html', form=form)
     return render_template('index.html', poke= pokemon_data, form=form)
             
