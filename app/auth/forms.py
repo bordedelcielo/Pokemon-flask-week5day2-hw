@@ -19,3 +19,7 @@ class Login_Form(FlaskForm):
     password= PasswordField('password', validators=[DataRequired()])
     confirm_password= PasswordField('confirm_password', validators=[DataRequired(), EqualTo('password')])
     submit= SubmitField()
+
+class PokeForm(FlaskForm):
+    pokemon = StringField('', validators= [DataRequired()])
+    submit = SubmitField('Submit')

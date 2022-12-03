@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 
-from app.auth.forms import UserCreationForm, Signup_Form, Login_Form
+from app.auth.forms import UserCreationForm, Signup_Form, Login_Form, PokeForm
 
 import requests
 
-from app.models import User, db
+from app.models import User, db, Data
+from werkzeug.security import check_password_hash
 
 auth = Blueprint('auth', __name__, template_folder='auth_templates')
 
@@ -13,31 +14,28 @@ auth = Blueprint('auth', __name__, template_folder='auth_templates')
 def pokemon1():
     return render_template('pokemon1.html',)
 
-@auth.route('/')
-@auth.route('/home', methods=['GET', 'POST'])
+# @auth.route('/')
+@auth.route('/', methods=['GET', 'POST'])
 def home():
-    form = UserCreationForm()
+    form = PokeForm()
     if request.method == 'POST':
         if form.validate():
-            user_input = form.user_input.data
-            url_four = f'https://pokeapi.co/api/v2/pokemon/{user_input}'
-            response_four = requests.get(url_four)
-            new_response_four = response_four.json()
-            pokemon_data = []
-            new_pokemon = {}
-            name = new_response_four["forms"][0]["name"]
-            new_pokemon = {
-                'name': new_response_four["forms"][0]["name"],
-                'ability' : new_response_four["abilities"][0]["ability"]["name"],
-                'url_sprite': new_response_four["sprites"]["front_shiny"],
-                'attack_base_state': new_response_four["stats"][1]["base_stat"],
-                'hp_base_stat': new_response_four["stats"][0]["base_stat"],
-                'defense_base_stat': new_response_four["stats"][2]['base_stat'],
-                'Ability' : new_response_four["abilities"][0]['ability']['name']
-                }
-            pokemon_data.append(new_pokemon)  
-            return render_template('index.html', form=form)
-    return render_template('index.html', poke= pokemon_data, form=form)
+            pokemon= form.pokemon.data.lower()
+            find_pokemon= Data.query.filter_by(name=pokemon).first()
+            url = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
+            response = requests.get(url)
+            new_response = response.json()
+            name = new_response["forms"][0]["name"]
+            ability = new_response["abilities"][0]["ability"]["name"]
+            url_sprite = new_response["sprites"]["front_shiny"]
+            attack_base_stat = new_response["stats"][1]["base_stat"]
+            hp_base_stat = new_response["stats"][0]["base_stat"]
+            defense_base_stat = new_response["stats"][2]['base_stat']
+            new_pokemon= Data(name, ability, url_sprite, attack_base_stat, hp_base_stat, defense_base_stat) 
+            return render_template('index.html', poke= new_pokemon, form=form)
+    else:
+        poke= 'Sample Pokemon here!'
+    return render_template('index.html', poke=poke, form=form)
             
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -66,7 +64,7 @@ def login():
 
             user = User.query.filter_by(email=email).first()
             if user:
-                if password== user.password:
+                if check_password_hash(user.password, password):
                     print('Logged in')
                     login_user(user)
                 else:

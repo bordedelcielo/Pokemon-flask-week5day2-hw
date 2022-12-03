@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
+from werkzeug.security  import generate_password_hash
 
 db = SQLAlchemy()
 
@@ -16,7 +17,7 @@ class User(db.Model, UserMixin):
         self.first_name = first_name
         self.last_name= last_name
         self.email = email
-        self.password= password
+        self.password= generate_password_hash(password)
 
     def save_to_db(self):
         db.session.add(self)
@@ -34,4 +35,25 @@ class Post(db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.user_id = user_id
+
+class Data(db.Model):
+    pokemon_id= db.Column(db.Integer, primary_key=True)
+    name= db.Column(db.String(250))
+    front_shiny= db.Column(db.String)
+    ability = db.Column(db.String(250))
+    attack_base_stat= db.Column(db.Integer)
+    hp_base_stat= db.Column(db.Integer)
+    defense_base_stat= db.Column(db.Integer)
+
+    def __init__(self, name, ability, front_shiny, attack_base_stat, hp_base_stat, defense_base_stat):
+        self.name = name
+        self.ability= ability
+        self.front_shiny = front_shiny
+        self.attack_base_stat = attack_base_stat
+        self.hp_base_stat = hp_base_stat
+        self.defense_base_stat = defense_base_stat
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
 

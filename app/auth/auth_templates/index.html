@@ -1,45 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>{{poke}}</h2>
-    <a href="/pokemon1">Pokemon Attributes</a> 
+    <!-- <h2>{{poke}}</h2> -->
     <form class="form-inline" method="POST">
         
+        {{form.pokemon(class="form-control mb-2 mr-sm-2", placeholder="Enter Mew")}}
+        {{form.submit(class="btn btn-primary mb-2", value= 'Submit')}}
+
         {{form.hidden_tag()}}
-        {% if form %}
+        <!-- <label class="sr-only" for="inlineFormInputName2">Name</label> -->
+        <!-- {{form.pokemon(class="form-control mb-2 mr-sm-2", placeholder="Enter Mew")}} -->
+        <!-- {{form.submit(class="btn btn-primary mb-2", value= 'Submit')}} -->
             <div class="card" style="width:400px">
                 <img class="card-img-top" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/151.png" alt="Card image" style="width:100%">
                 <div class="card-body">
-                  <h4 class="card-title">MEW</h4>
-                  <p class="card-text">name: {{poke.name}}</p>
+                  <h4 class="card-title">name: {{poke.name}}</h4>
+                  <p class="card-text">Ability: {{poke.ability}}</p>
                   <p class="card-text">URL_sprite: {{poke.url_sprite}}</p>
-                  <p class="card-text">attack_base_state: {{poke.attack_base_state}} </p>
+                  <p class="card-text">attack_base_state: {{poke.attack_base_stat}} </p>
                   <p class="card-text">hp_base_stat: {{poke.hp_base_stat}}</p>
                   <p class="card-text">defense_base_stat: {{poke.defense_base_stat}}</p>
                 </div>
             </div>
-        {% else %}
-            
-        <label class="sr-only" for="inlineFormInputName2">Name</label>
-        {{form.user_input(class="form-control mb-2 mr-sm-2", placeholder="Enter Mew")}}
-        {% endif %}
-        <!-- <input type="text"  id="inlineFormInputName2" > -->
-      
-        <!-- <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-        <div class="input-group mb-2 mr-sm-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text">@</div>
-          </div>
-          <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-        </div> -->
-      
-        <!-- <div class="form-check mb-2 mr-sm-2">
-          <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-          <label class="form-check-label" for="inlineFormCheck">
-            Remember me
-          </label>
-        </div> -->
-        {{form.submit(class="btn btn-primary mb-2", value= 'Submit')}}
-        <!-- <button type="submit" >Submit</button> -->
-      </form>
+    </form>
 {% endblock %}
 
