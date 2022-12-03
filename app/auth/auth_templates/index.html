@@ -1,26 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- <h2>{{poke}}</h2> -->
-    <form class="form-inline" method="POST">
+    <form class="form-inline mt-3" method="POST">
         
-        {{form.pokemon(class="form-control mb-2 mr-sm-2", placeholder="Enter Mew")}}
+        {{form.pokemon(class="form-control mb-2 mr-sm-2", placeholder="Enter Pokemon")}}
         {{form.submit(class="btn btn-primary mb-2", value= 'Submit')}}
 
         {{form.hidden_tag()}}
-        <!-- <label class="sr-only" for="inlineFormInputName2">Name</label> -->
-        <!-- {{form.pokemon(class="form-control mb-2 mr-sm-2", placeholder="Enter Mew")}} -->
-        <!-- {{form.submit(class="btn btn-primary mb-2", value= 'Submit')}} -->
-            <div class="card" style="width:400px">
-                <img class="card-img-top" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/151.png" alt="Card image" style="width:100%">
-                <div class="card-body">
-                  <h4 class="card-title">name: {{poke.name}}</h4>
-                  <p class="card-text">Ability: {{poke.ability}}</p>
-                  <p class="card-text">URL_sprite: {{poke.url_sprite}}</p>
-                  <p class="card-text">attack_base_state: {{poke.attack_base_stat}} </p>
-                  <p class="card-text">hp_base_stat: {{poke.hp_base_stat}}</p>
-                  <p class="card-text">defense_base_stat: {{poke.defense_base_stat}}</p>
-                </div>
-            </div>
-    </form>
+      </form>
+        <div class="card" style="width:400px">
+          <div class="card-body">
+            {%for p in poke%}
+            <h4 class="card-title">name: {{p.name.title()}}</h4>
+            <img class="card-img-top" src= {{p.url_sprite}} alt="Card image" style="width:100%">
+            <p class="card-text">Ability: {{p.ability}}</p>
+            <p class="card-text">attack_base_state: {{p.attack_base_stat}} </p>
+            <p class="card-text">hp_base_stat: {{p.hp_base_stat}}</p>
+            <p class="card-text">defense_base_stat: {{p.defense_base_stat}}</p>
+          </div>
+        </div>
+        {%endfor%}
 {% endblock %}
 

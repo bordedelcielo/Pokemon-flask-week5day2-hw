@@ -21,21 +21,46 @@ def home():
     if request.method == 'POST':
         if form.validate():
             pokemon= form.pokemon.data.lower()
-            find_pokemon= Data.query.filter_by(name=pokemon).first()
             url = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
             response = requests.get(url)
-            new_response = response.json()
-            name = new_response["forms"][0]["name"]
-            ability = new_response["abilities"][0]["ability"]["name"]
-            url_sprite = new_response["sprites"]["front_shiny"]
-            attack_base_stat = new_response["stats"][1]["base_stat"]
-            hp_base_stat = new_response["stats"][0]["base_stat"]
-            defense_base_stat = new_response["stats"][2]['base_stat']
-            new_pokemon= Data(name, ability, url_sprite, attack_base_stat, hp_base_stat, defense_base_stat) 
-            return render_template('index.html', poke= new_pokemon, form=form)
-    else:
-        poke= 'Sample Pokemon here!'
-    return render_template('index.html', poke=poke, form=form)
+            if response.ok:
+                new_response = response.json()
+                poke_attributes = []
+                new_pokemon = {}
+                new_pokemon= {
+                    'name': new_response["forms"][0]["name"],
+                    'ability' : new_response["abilities"][0]["ability"]["name"],
+                    'url_sprite': new_response["sprites"]["front_shiny"],
+                    'attack_base_stat': new_response["stats"][1]["base_stat"],
+                    'hp_base_stat' : new_response["stats"][0]["base_stat"],
+                    'defense_base_stat' : new_response["stats"][2]['base_stat']
+                }
+                poke_attributes.append(new_pokemon)
+                return render_template('index.html', poke= poke_attributes, form=form)
+    return render_template('index.html', form=form)
+
+
+# @auth.route('/', methods=['GET', 'POST'])
+# def home():
+#     form = PokeForm()
+#     if request.method == 'POST':
+#         if form.validate():
+#             pokemon= form.pokemon.data.lower()
+#             find_pokemon= Data.query.filter_by(name=pokemon).first()
+#             url = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
+#             response = requests.get(url)
+#             new_response = response.json()
+#             name = new_response["forms"][0]["name"]
+#             ability = new_response["abilities"][0]["ability"]["name"]
+#             url_sprite = new_response["sprites"]["front_shiny"]
+#             attack_base_stat = new_response["stats"][1]["base_stat"]
+#             hp_base_stat = new_response["stats"][0]["base_stat"]
+#             defense_base_stat = new_response["stats"][2]['base_stat']
+#             new_pokemon= Data(name, ability, url_sprite, attack_base_stat, hp_base_stat, defense_base_stat) 
+#             return render_template('index.html', poke= new_pokemon, form=form)
+#     else:
+#         poke= 'Sample Pokemon here!'
+#     return render_template('index.html', poke=poke, form=form)
             
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -68,7 +93,7 @@ def login():
                     print('Logged in')
                     login_user(user)
                 else:
-                    print('try again')
+                    print('Please try again')
             else:
                 print('Email does not exist')
 
