@@ -18,10 +18,15 @@ def create_post():
             post = Post(title, img_url, caption, current_user.id)
 
             post.save_to_db()
-            return redirect(url_for('poke_blue.feed'))
+            return redirect(url_for('poke_blue.create_post'))
     return render_template('create_post.html', form=form)
 
-@poke_blue.route('/posts')
+@poke_blue.route('/posts') 
 def view_posts():
     posts = Post.query.all()
-    return render_template('feed.html', posts=posts)
+    return render_template('feed.html', posts=posts[::-1])
+
+@poke_blue.route('/posts/<int:post_id>')
+def view_single_post(post_id):
+    post=Post.query.get('user_id')
+

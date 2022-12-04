@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_user, logout_user, current_user
 
-from app.auth.forms import UserCreationForm, Signup_Form, Login_Form, PokeForm
+from app.auth.forms import UserCreationForm, Signup_Form, Login_Form, PokeForm, EditProfile
 
 import requests
 
@@ -104,12 +104,20 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
+# @auth.route('/editprofile'['GET', 'POST'])
+# def edit_profile():
+#     form = EditProfile
+#     if request.method == 'POST':
+#         if form.validate():
+#             user= User.query.get(email)
 
 
 
 
-    # return render_template('index.html', poke = pokemon_data, form=form)
-            
+
+
+
+
             
             
             # return redirect(url_for('auth_templates/pokemon1'))

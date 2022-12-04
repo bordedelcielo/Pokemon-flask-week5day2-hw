@@ -23,3 +23,11 @@ class Login_Form(FlaskForm):
 class PokeForm(FlaskForm):
     pokemon = StringField('', validators= [DataRequired()])
     submit = SubmitField('Submit')
+
+class EditProfile(FlaskForm):
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name', validators=[DataRequired()])
+    email = StringField('email', validators = [DataRequired()])
+    password = PasswordField('password', validators= [DataRequired()])
+    confirm_password= PasswordField('confirm_password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField()

@@ -6,9 +6,12 @@
     color: #c9ec83
 }
 
-.color-login{
-    color: r
+.the-poke-side{
+    margin-top: .8vh;
+    font-size: 3vh;
+    color:yellowgreen
 }
+
 
 .header-login{
     color: rgb(0, 132, 255)
@@ -16,5 +19,14 @@
 
 .header-signup{
     color: rgb(0, 132, 255)
+}
+
+.get-pokemone-data{
+    margin-top: 2vh;
+    color:yellowgreen
+}
+
+.caption-text{
+    font-size:32px
 }
 
