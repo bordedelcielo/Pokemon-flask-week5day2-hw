@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2 class="get-pokemone-data">Enter Pokemon to add:</h2>
+<h3 class= 'pokemon_deck_warning'>(Limit 5 pokemon per user and if pokemon is taken it will not be added to your deck)</h3>
     <form class="form-inline mt-3" method="POST">
         
         {{form.pokemon(class="form-control mb-2 mr-sm-2", placeholder="Enter Pokemon")}}

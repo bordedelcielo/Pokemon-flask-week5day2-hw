@@ -24,8 +24,13 @@ def create_post():
                 hp_base_stat = new_response["stats"][0]["base_stat"]
                 defense_base_stat = new_response["stats"][2]['base_stat']
                 post = Post(name, front_shiny, ability, attack_base_stat, hp_base_stat, defense_base_stat, current_user.id)
-                post.save_to_db()
-                return redirect(url_for('poke_blue.view_posts'))
+                count_user_id = Post.query.filter_by(user_id = current_user.id).count()
+                check_name = Post.query.filter_by(name = name).count()
+                if check_name < 1 and count_user_id < 5:
+                    post.save_to_db()
+                    return redirect(url_for('poke_blue.view_posts'))
+                else:
+                    return redirect(url_for('poke_blue.create_post'))
     return render_template('create_post.html', form=form)
 
 
