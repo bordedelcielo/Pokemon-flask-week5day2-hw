@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card mx-auto m-5" style="width: 32rem;">
+    <img class="card-img-top" src="{{post.front_shiny}}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{post.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{post.ability}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{post.attack_base_stat}}</h6>
+      <p class="card-text caption-text">{{post.hp_base_stat}}</p>
+      <p class="card-text caption-text">{{post.defense_base_stat}}</p>
+    </div>
+  </div>
+
+{% endblock%}
