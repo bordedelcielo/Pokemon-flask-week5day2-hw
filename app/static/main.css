@@ -33,6 +33,17 @@
 .pokemon_deck_warning{
     font-size: 16px;
     color: red
- 
+}
+
+.opponents_deck{
+    color: #a2a4b2;
+    text-align: center;
+    padding-top: 3vh;
+    padding-bottom: 3vh
+}
+
+.battle_button{
+    text-align:center;
+    padding-bottom:3vh
 
 }

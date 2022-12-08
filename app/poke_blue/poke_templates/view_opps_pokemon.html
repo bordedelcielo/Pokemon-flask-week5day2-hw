@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="opponents_deck">{{user.first_name.title()}}'s Deck</h1>
+{% for p in post%}
+<div class="card mx-auto mb-3" style="width:400px">
+    <div class="card-body">
+      <h4 class="card-title">{{p.name.title()}}</h4>
+      <img class="card-img-top" src= {{p.front_shiny}} alt="Card image" style="width:100%">
+      <p class="card-text">Ability: {{p.ability}}</p>
+      <p class="card-text">attack_base_state: {{p.attack_base_stat}} </p>
+      <p class="card-text">hp_base_stat: {{p.hp_base_stat}}</p>
+      <p class="card-text">defense_base_stat: {{p.defense_base_stat}}</p>
+    </div>
+  </div>
+  {% endfor%}
+<div class="battle_button">
+<a href="#" class="btn btn-danger" href="/attack/{{user_id}}/battle">Battle {{user.first_name.title()}}</a>
+</div>
+{% endblock %}

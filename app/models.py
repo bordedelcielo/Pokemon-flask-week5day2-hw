@@ -5,11 +5,12 @@ from werkzeug.security  import generate_password_hash
 
 db = SQLAlchemy()
 
-# catch_pokemon = db.Table(
-#     'catch_pokemon':
-#     db.Column('user_pokemon_id', db.Integer, db.ForeignKey('user.id'), nullable = False)
-#     db.Column('catch_pokemon_id', db.Integer, db.ForeignKey('data.id'), nullable = False)
-# )
+
+battlers = db.Table(
+    'battlers',
+    db.Column('battler_id', db.Integer, db.ForeignKey('user.id'), nullable= False),
+    db.Column('battler_two_id',db.Integer, db.ForeignKey('user.id'), nullable= False)
+)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,13 +19,15 @@ class User(db.Model, UserMixin):
     email= db.Column(db.String(250), nullable=False, unique=True)
     password= db.Column(db.String(250), nullable=False)
     post= db.relationship('Post', backref='Author', lazy=True)
-    # catch_pokemon = db.relationship('User',
-    #     primaryjoin = (catch_pokemon.columns.user_pokemon_id=id),
-    #     secondaryjoin= (catch_pokemon.columns.catch_pokemon_id=id),
-    #     secondary= catch_pokemon,
-    #     backref= db.backref('catch_pokemon', lazy='dynamic'),
-    #     lazy='dynamic'
-    # )
+    battled = db.relationship('User',
+        primaryjoin= (battlers.columns.battler_id==id),
+        secondaryjoin = (battlers.columns.battler_two_id==id),
+        secondary = battlers,
+        backref = db.backref('battlers', lazy='dynamic'),
+        lazy='dynamic'
+    )
+
+
     def __init__(self, first_name, last_name, email, password):
         self.first_name = first_name
         self.last_name= last_name
@@ -34,6 +37,15 @@ class User(db.Model, UserMixin):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+    
+    def attack(self, user):
+        self.battled.append(user)
+        db.session.commit()
+    
+    def end_attack(self, user):
+        self.battled.remove(user)
+        db.session.commit()
+
 
 
 class Post(db.Model):
@@ -62,6 +74,10 @@ class Post(db.Model):
         db.session.commit()
     
     def update_db(self):
+        db.session.commit()
+    
+    def delete_from_db(self):
+        db.session.delete(self)
         db.session.commit()
 
 class Data(db.Model):

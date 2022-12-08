@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for, request
+from flask import Blueprint, render_template, request, redirect, url_for, request, flash
 from flask_login import current_user, login_required
 from .forms import PostForm
-from app.models import Post
+from app.models import Post, User
 import requests
 
 poke_blue = Blueprint('poke_blue', __name__, template_folder= 'poke_templates')
@@ -34,10 +34,13 @@ def create_post():
     return render_template('create_post.html', form=form)
 
 
+
 @poke_blue.route('/posts') 
 def view_posts():
     posts = Post.query.all()
-    return render_template('feed.html', posts=posts[::-1])
+    user = User.query.all()
+    return render_template('feed.html', posts=posts[::-1], user=user)
+
 
 
 @poke_blue.route('/posts/<int:post_id>')
@@ -47,6 +50,56 @@ def view_single_post(post_id):
         return render_template('single_post.html', post=post)
     else:
         return redirect(url_for('poke_blue.view_posts'))
+
+@poke_blue.route('/posts/delete/<int:post_id>')
+def delete_pokemone(post_id):
+    post = Post.query.get(post_id)
+    if post:
+        post.delete_from_db()
+    return redirect(url_for('poke_blue.view_posts'))
+
+@poke_blue.route("/attack/<int:user_id>")
+@login_required
+def attack_user(user_id):
+    user = User.query.get(user_id)
+    post = Post.query.filter_by(user_id=user_id)
+
+    if user:
+        current_user.attack(user)
+    else:
+        flash('User does not exist')
+    
+    return render_template('view_opps_pokemon.html', post = post, user = user)    
+
+
+    # return redirect(url_for('poke_blue.view_posts'))
+
+@poke_blue.route("/attack/<int:user_id>/battle")
+@login_required
+def results(user_id):
+    user = User.query.get(user_id)
+    post= Post.query.filter_by(user_id = user_id)
+    post_2 = Post.query.filter_by(user_id = current_user)
+
+    if user and sum(post.defense_base_stat) < sum(post_2.attack_base_stat):
+        return render_template('battle_winner.html', post=post, post_2=post_2)
+    else:
+        return redirect(url_for('poke_blue.view_posts'))
+    
+
+
+
+
+
+
+
+# @poke_blue.route("/endattack/<int:user_id>")
+# @login_required
+# def end_attack(user_id):
+#     user = User.query.get(user_id)
+#     if user:
+#         current_user.end_attack(user)
+#     return redirect(url_for('poke_blue.view_posts'))
 
 
 

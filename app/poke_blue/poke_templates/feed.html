@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-{% for post in posts%}
-<a class="card mx-auto" style="width: 18rem;">
+{% for post in posts %}
+{% if current_user %}
+
+<a class="card mx-auto m-4 text-decoration-none" style="width: 18rem;" href="/posts/{{post.id}}">
     <img src="{{post.front_shiny}}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">{{post.name.title()}}</h5>
-      <p class="card-text"> Ability: {{post.ability.title()}}</p>
+      <h5 class="card-title text-dark">{{post.name.title()}}</h5>
+      <p class="card-text text-dark"> Ability: {{post.ability.title()}}</p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"> Attack Base Stat: {{post.attack_base_stat}}</li>
-        <li class="list-group-item">HP: {{post.hp_base_stat}}</li>
-        <li class="list-group-item">Defense Base Stat: {{post.defense_base_stat}}</li>
-        <li class="list-group-item">Belongs to user #{{post.user_id}}</li>
+        <li class="list-group-item text-dark"> Attack Base Stat: {{post.attack_base_stat}}</li>
+        <li class="list-group-item text-dark">HP: {{post.hp_base_stat}}</li>
+        <li class="list-group-item text-dark">Defense Base Stat: {{post.defense_base_stat}}</li>
+        <li class="list-group-item text-dark">Belongs to {{post.Author.first_name.title()}}</li>
     </ul>
 </a>
+{% endif %}
 {% endfor %}
 {% endblock %}
+
+
+
+       <li class="list-group-item text-dark">Belongs to {{first_name.title()}}</li>

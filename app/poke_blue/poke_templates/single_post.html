@@ -1,15 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class="card mx-auto m-5" style="width: 32rem;">
-    <img class="card-img-top" src="{{post.front_shiny}}" alt="Card image cap">
+<div class="card mx-auto m-4" style="width: 18rem;">
+    <img src="{{post.front_shiny}}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">{{post.name}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{post.ability}}</h6>
-      <h6 class="card-subtitle mb-2 text-muted">{{post.attack_base_stat}}</h6>
-      <p class="card-text caption-text">{{post.hp_base_stat}}</p>
-      <p class="card-text caption-text">{{post.defense_base_stat}}</p>
+      <h5 class="card-title">{{post.name.title()}}</h5>
+      <p class="card-text"> Ability: {{post.ability.title()}}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"> Attack Base Stat: {{post.attack_base_stat}}</li>
+        <li class="list-group-item">HP: {{post.hp_base_stat}}</li>
+        <li class="list-group-item">Defense Base Stat: {{post.defense_base_stat}}</li>
+        <li class="list-group-item">Belongs to user #{{post.user_id}}</li>
+    </ul>
+    <!-- Button trigger modal -->
+    {% if current_user.id == post.user_id %}
+<button type="button" class="btn btn-danger mx-auto m-3" data-toggle="modal" data-target="#exampleModal">
+    Delete Pokemon
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete Pokemon from your deck?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          This will delete pokemon from your deck
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a type="button" class="btn btn-danger" href="/posts/delete/{{post.id}}">Delete</a>
+        </div>
+      </div>
     </div>
   </div>
+  {% endif %}
+
+</div>
+
 
 {% endblock%}

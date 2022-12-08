@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for user in users%}
+    {% if current_user.email != user.email %}
+    <section class="vh-100" style="background-color: rgb(13, 33, 75) ;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-md-9 col-lg-7 col-xl-5">
+              <div class="card" style="border-radius: 15px;">
+                <div class="card-body p-4">
+                  <div class="d-flex text-black">
+                    <div class="flex-shrink-0">
+                      <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8dfd3a80-3af2-4b45-976a-d457ecf42ee1/d52xfdi-4cde163a-6c00-43d9-9c11-fa5db58b5008.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzhkZmQzYTgwLTNhZjItNGI0NS05NzZhLWQ0NTdlY2Y0MmVlMVwvZDUyeGZkaS00Y2RlMTYzYS02YzAwLTQzZDktOWMxMS1mYTVkYjU4YjUwMDgucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.zdKo2m2Gufn78c41sWR9tbMoHBxOdSvHzFMYCzB-3kM"
+                        alt="Generic placeholder image" class="img-fluid"
+                        style="width: 180px; border-radius: 10px;">
+                    </div>
+                    <div class="flex-grow-1 ms-3 ml-3">
+                      <h5 class="mb-1">{{user.first_name.title()}}</h5>
+                      <p class="mb-2 pb-1" style="color: #2b2a2a;">{{user.last_name.title()}}</p>
+                      <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+                        style="background-color: #efefef;">
+                        <div>
+                          <p class="small text-muted mb-1">Pokemon</p>
+                          <p class="mb-0"></p>
+                        </div>
+                        <div class="px-3">
+                          <p class="small text-muted mb-1">Followers</p>
+                          <p class="mb-0">976</p>
+                        </div>
+                        <div>
+                          <p class="small text-muted mb-1">Rating</p>
+                          <p class="mb-0">8.5</p>
+                        </div>
+                      </div>
+
+                      <div class="d-flex pt-1">
+                        <a type="button" class="btn btn-danger flex-grow-1" href="/attack/{{user.id}}">Attack</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+    {% endfor %}
+{% endblock %}
